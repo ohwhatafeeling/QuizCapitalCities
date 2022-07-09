@@ -3,6 +3,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,9 +23,15 @@ public class Quiz extends JFrame implements ActionListener {
 	JTextField response;
 	JButton submit;
 	JButton restart;
-	QuizQuestions questions;
+	
+	QuizQuestions questions = new QuizQuestions();
+	String[] questionsList = questions.capitalCities.keySet().toArray(new String[0]);
+	
 	String questionText;
 	String answerText;
+	int correctQuestions = 0;
+	int incorrectQuestions = 0;
+	int counter = 0;
 	
 	Quiz() {
 		this.setTitle("Capital City Quiz");
@@ -30,13 +41,10 @@ public class Quiz extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		
-		questions = new QuizQuestions();
-		questionText = (String)questions.capitalCities.keySet().toArray()[0];
-		answerText = questions.capitalCities.get(questionText);
 		
 		question = new JLabel();
 		question.setBounds(20, 20, 460, 260);
-		question.setText("What is the capital of " + questionText + "?");
+		question.setText("Click start to begin");
 		question.setFont(new Font(null, Font.PLAIN, 30));		
 		question.setBackground(Color.yellow);
 		question.setOpaque(true);
@@ -45,7 +53,7 @@ public class Quiz extends JFrame implements ActionListener {
 		response.setBounds(20, 320, 460, 60);
 		response.setFont(new Font(null, Font.PLAIN, 20));
 		
-		submit = new JButton("Submit");
+		submit = new JButton("Start");
 		submit.setBounds(20, 400, 460, 60);
 		submit.setFont(new Font(null, Font.PLAIN, 20));
 		submit.addActionListener(this);
@@ -84,18 +92,32 @@ public class Quiz extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == submit) {
-			questionPanel.setVisible(false);
-			answerPanel.setVisible(true);
-			if (response.getText().toLowerCase().equals(answerText.toLowerCase())) {
-				answer.setText("Correct");
+			submit.setText("Submit");
+			if (counter < questionsList.length) {
+				if (response.getText().toLowerCase().equals(questions.capitalCities.get(questionsList[counter]).toLowerCase())) {
+					correctQuestions++;
+				} else {
+					incorrectQuestions++;
+				}
+				question.setText("What is the capital of " + questionsList[counter] + "?");
+				counter++;
 			} else {
-				answer.setText("<html> The correct answer is " + answerText + "</html>");
+				questionPanel.setVisible(false);
+				answer.setText("Finished\n" + "You got " + incorrectQuestions + " wrong");
+				answerPanel.setVisible(true);
 			}
+			
 		}
+//		
 		if (e.getSource() == restart) {
+			counter = 0;
+			correctQuestions = 0;
+			incorrectQuestions = 0;
+			question.setText("Click start to begin");
+			submit.setText("Start");
 			answerPanel.setVisible(false);
 			questionPanel.setVisible(true);
 		}
 	}
-
+	
 }
