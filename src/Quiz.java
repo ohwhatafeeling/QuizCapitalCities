@@ -18,17 +18,25 @@ public class Quiz extends JFrame implements ActionListener {
 	JTextField response;
 	JButton submit;
 	JButton restart;
+	QuizQuestions questions;
+	String questionText;
+	String answerText;
 	
 	Quiz() {
+		this.setTitle("Capital City Quiz");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(500, 500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		
+		questions = new QuizQuestions();
+		questionText = (String)questions.capitalCities.keySet().toArray()[0];
+		answerText = questions.capitalCities.get(questionText);
+		
 		question = new JLabel();
 		question.setBounds(20, 20, 460, 260);
-		question.setText("This is a question");
+		question.setText("What is the capital of " + questionText + "?");
 		question.setFont(new Font(null, Font.PLAIN, 30));		
 		question.setBackground(Color.yellow);
 		question.setOpaque(true);
@@ -52,7 +60,6 @@ public class Quiz extends JFrame implements ActionListener {
 
 		answer = new JLabel();
 		answer.setBounds(20, 20, 460, 360);
-		answer.setText("This is the answer");
 		answer.setFont(new Font(null, Font.PLAIN, 30));
 		answer.setBackground(Color.blue);
 		answer.setOpaque(true);
@@ -79,6 +86,11 @@ public class Quiz extends JFrame implements ActionListener {
 		if (e.getSource() == submit) {
 			questionPanel.setVisible(false);
 			answerPanel.setVisible(true);
+			if (response.getText().toLowerCase().equals(answerText.toLowerCase())) {
+				answer.setText("Correct");
+			} else {
+				answer.setText("<html> The correct answer is " + answerText + "</html>");
+			}
 		}
 		if (e.getSource() == restart) {
 			answerPanel.setVisible(false);
