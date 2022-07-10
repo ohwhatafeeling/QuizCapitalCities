@@ -21,6 +21,7 @@ public class Quiz extends JFrame implements ActionListener {
 	JLabel question;
 	JLabel answer;
 	JTextField response;
+	JButton start;
 	JButton submit;
 	JButton restart;
 	
@@ -45,6 +46,7 @@ public class Quiz extends JFrame implements ActionListener {
 		question = new JLabel();
 		question.setBounds(20, 20, 460, 260);
 		question.setText("Click start to begin");
+		question.setHorizontalAlignment(JLabel.CENTER);
 		question.setFont(new Font(null, Font.PLAIN, 30));		
 		question.setBackground(Color.yellow);
 		question.setOpaque(true);
@@ -53,9 +55,16 @@ public class Quiz extends JFrame implements ActionListener {
 		response.setBounds(20, 320, 460, 60);
 		response.setFont(new Font(null, Font.PLAIN, 20));
 		
-		submit = new JButton("Start");
+		start = new JButton("Start");
+		start.setBounds(20, 400, 460, 60);
+		start.setFont(new Font(null, Font.PLAIN, 20));
+		start.setVisible(true);
+		start.addActionListener(this);
+		
+		submit = new JButton("Submit");
 		submit.setBounds(20, 400, 460, 60);
 		submit.setFont(new Font(null, Font.PLAIN, 20));
+		submit.setVisible(false);
 		submit.addActionListener(this);
 
 		questionPanel = new JPanel();
@@ -63,12 +72,14 @@ public class Quiz extends JFrame implements ActionListener {
 		questionPanel.setLayout(null);
 		questionPanel.add(question);
 		questionPanel.add(response);
+		questionPanel.add(start);
 		questionPanel.add(submit);
 		questionPanel.setVisible(true);
 
 		answer = new JLabel();
 		answer.setBounds(20, 20, 460, 360);
 		answer.setFont(new Font(null, Font.PLAIN, 30));
+		answer.setHorizontalAlignment(JLabel.CENTER);
 		answer.setBackground(Color.blue);
 		answer.setOpaque(true);
 		
@@ -91,22 +102,29 @@ public class Quiz extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == start) {
+			start.setVisible(false);
+			submit.setVisible(true);
+			question.setText("<html>What is the capital of " + questionsList[counter] + "?</html>");
+			
+		}
+		
 		if (e.getSource() == submit) {
-			submit.setText("Submit");
 			if (counter < questionsList.length) {
 				if (response.getText().toLowerCase().equals(questions.capitalCities.get(questionsList[counter]).toLowerCase())) {
 					correctQuestions++;
 				} else {
 					incorrectQuestions++;
 				}
-				question.setText("What is the capital of " + questionsList[counter] + "?");
 				counter++;
-			} else {
-				questionPanel.setVisible(false);
-				answer.setText("Finished\n" + "You got " + incorrectQuestions + " wrong");
-				answerPanel.setVisible(true);
+				if (counter == questionsList.length) {
+					questionPanel.setVisible(false);
+					answer.setText("<html>You scored " + getPercentage(correctQuestions, questionsList.length) + "%<br/>" + "You got " + incorrectQuestions + " wrong</html>");
+					answerPanel.setVisible(true);
+				} else {
+					question.setText("<html>What is the capital of " + questionsList[counter] + "?</html>");
+				}		
 			}
-			
 		}
 //		
 		if (e.getSource() == restart) {
@@ -114,10 +132,15 @@ public class Quiz extends JFrame implements ActionListener {
 			correctQuestions = 0;
 			incorrectQuestions = 0;
 			question.setText("Click start to begin");
-			submit.setText("Start");
+			submit.setVisible(false);
+			start.setVisible(true);
 			answerPanel.setVisible(false);
 			questionPanel.setVisible(true);
 		}
+	}
+	
+	public int getPercentage(int score, int totalQuestions) {
+		return (score * 100) / totalQuestions;
 	}
 	
 }
