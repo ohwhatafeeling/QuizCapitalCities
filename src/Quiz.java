@@ -123,6 +123,7 @@ public class Quiz extends JFrame implements ActionListener {
 					answerPanel.setVisible(true);
 				} else {
 					question.setText("<html>What is the capital of " + questionsList[counter] + "?</html>");
+					response.setText("");
 				}		
 			}
 		}
