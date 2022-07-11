@@ -9,5 +9,6 @@ public class QuizQuestions {
 		capitalCities.put("Germany", "Berlin");
 		capitalCities.put("Norway", "Oslo");
 		capitalCities.put("USA", "Washington DC");
+		
 	}
 }

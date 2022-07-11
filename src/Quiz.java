@@ -1,19 +1,6 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Quiz extends JFrame implements ActionListener {
 	JPanel questionPanel;
@@ -27,9 +14,6 @@ public class Quiz extends JFrame implements ActionListener {
 	
 	QuizQuestions questions = new QuizQuestions();
 	String[] questionsList = questions.capitalCities.keySet().toArray(new String[0]);
-	
-	String questionText;
-	String answerText;
 	int correctQuestions = 0;
 	int incorrectQuestions = 0;
 	int counter = 0;
@@ -42,9 +26,8 @@ public class Quiz extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		
-		
 		question = new JLabel();
-		question.setBounds(20, 20, 460, 260);
+		question.setBounds(20, 20, 460, 360);
 		question.setText("Click start to begin");
 		question.setHorizontalAlignment(JLabel.CENTER);
 		question.setFont(new Font(null, Font.PLAIN, 30));		
@@ -54,6 +37,7 @@ public class Quiz extends JFrame implements ActionListener {
 		response = new JTextField();
 		response.setBounds(20, 320, 460, 60);
 		response.setFont(new Font(null, Font.PLAIN, 20));
+		response.setVisible(false);
 		
 		start = new JButton("Start");
 		start.setBounds(20, 400, 460, 60);
@@ -104,8 +88,10 @@ public class Quiz extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == start) {
 			start.setVisible(false);
+			response.setVisible(true);
 			submit.setVisible(true);
 			question.setText("<html>What is the capital of " + questionsList[counter] + "?</html>");
+			question.setBounds(20, 20, 460, 260);
 			
 		}
 		
@@ -127,13 +113,15 @@ public class Quiz extends JFrame implements ActionListener {
 				}		
 			}
 		}
-//		
+		
 		if (e.getSource() == restart) {
 			counter = 0;
 			correctQuestions = 0;
 			incorrectQuestions = 0;
+			question.setBounds(20, 20, 460, 360);
 			question.setText("Click start to begin");
 			submit.setVisible(false);
+			response.setVisible(false);
 			start.setVisible(true);
 			answerPanel.setVisible(false);
 			questionPanel.setVisible(true);
