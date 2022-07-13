@@ -31,7 +31,7 @@ public class Quiz extends JFrame implements ActionListener {
 		question.setText("Click start to begin");
 		question.setHorizontalAlignment(JLabel.CENTER);
 		question.setFont(new Font(null, Font.PLAIN, 30));		
-		question.setBackground(Color.yellow);
+		question.setBackground(new Color(0x9bff4f));
 		question.setOpaque(true);
 		
 		response = new JTextField();
@@ -64,7 +64,7 @@ public class Quiz extends JFrame implements ActionListener {
 		answer.setBounds(20, 20, 460, 360);
 		answer.setFont(new Font(null, Font.PLAIN, 30));
 		answer.setHorizontalAlignment(JLabel.CENTER);
-		answer.setBackground(Color.blue);
+		answer.setBackground(new Color(0x58ecfc));
 		answer.setOpaque(true);
 		
 		restart = new JButton("Restart");
@@ -91,6 +91,7 @@ public class Quiz extends JFrame implements ActionListener {
 			response.setVisible(true);
 			submit.setVisible(true);
 			question.setText("<html>What is the capital of " + questionsList[counter] + "?</html>");
+			question.setBackground(new Color(0xffbc57));
 			question.setBounds(20, 20, 460, 260);
 			
 		}
@@ -119,6 +120,7 @@ public class Quiz extends JFrame implements ActionListener {
 			correctQuestions = 0;
 			incorrectQuestions = 0;
 			question.setBounds(20, 20, 460, 360);
+			question.setBackground(new Color(0x9bff4f));
 			question.setText("Click start to begin");
 			submit.setVisible(false);
 			response.setVisible(false);
